@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales forecast by ARIMA</title>
+
+
+</head>
+<body>
+    <h1>Sales forecast by ARIMA</h1>
+    <form action="/predict" method="post">
+        <h2>Set a range for forecasting:</h2>
+
+        <table>
+            <tr>
+                <td>
+                    <label for="start_year">From (year 2000-2025):</label>
+                    <input type="number" id="start_year" name="start_year" required min=2000 max=2025>
+                </td>
+                <td>
+                                       <datalist id="quart_list">
+                        <option value="01-01" />
+                        <option value="04-01" />
+                        <option value="07-01" />
+                        <option value="10-01" />
+                    </datalist>
+                    <label for="quartal_start">From (Date for each quartal):</label>
+                    <input list="quart_list" id="quartal_start" name="quartal_start" required>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <br>
+                    <label for="end_year">To (year 2000-2025):</label>
+                    <input type="number" id="end_year" name="end_year" required min=2000 max=2025>
+                </td>
+                <td>
+                    <br>
+                    <label for="quartal_end">To (Date for each quartal):</label>
+                    <input list="quart_list" id="quartal_end" name="quartal_end" required>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+
+<!--        <input type="number" id="period" name="period" required max=24>&lt;!&ndash; Here is 24 because, training subset contains 16+2years 8 quarters  &ndash;&gt;-->
+        <button type="submit">Forecast</button>
+    </form>
+
+    {% if forecast %}
+        <h2>Prediction for E-Commerce Retail Sales:</h2>
+        <table>
+            <img src="{{ image_path }}" alt="Forecast plot">
+            <tr>
+               <th>Date</th>
+               <th>Predicted values</th>
+
+           </tr>
+
+
+
+            {% for date, value in forecast.items() %}
+            <tr>
+                   <td>{{ date }}</td>
+                   <td>{{ value.round() }}</td>
+               </tr>
+           {% endfor %}
+
+            {% if image_path %}
+
+            {% endif %}
+       </table>
+    {% endif %}
+</body>
+</html>
